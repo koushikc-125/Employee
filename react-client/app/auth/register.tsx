@@ -39,7 +39,7 @@ export default function Register() {
           backgroundColor="bg-(--subdued)"
         />
         <span>Already have an account? &nbsp;
-          <Link to="/login" className="hover:text-(--default) transition-colors underline">Log in</Link>
+          <Link to="/log-in" className="hover:text-(--default) transition-colors underline">Log in</Link>
         </span>
       </section>
     </main>
