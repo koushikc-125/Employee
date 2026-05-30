@@ -1,11 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
-import {nevigate} from "react-router";
+import { useNavigate } from "react-router"; 
 
 export default function AdminAttendance() {
 
   const [attendance, setAttendance] = useState<any[]>([]);
- const navigate = nevigate();
+ const navigate = useNavigate();
   useEffect(() => {
 
     const storedAttendance = localStorage.getItem("attendance");
