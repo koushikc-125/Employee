@@ -1,9 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router"; 
 
 export default function AdminDashboard() {
 
-  const [admin, setAdmin] = useState<any>({});
+  const [admin, setAdmin] = useState<any>({}); 
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState<any[]>([]);
   const [presentCount, setPresentCount] = useState(0);
   const [leaveCount, setLeaveCount] = useState(0);
@@ -55,17 +57,40 @@ export default function AdminDashboard() {
 
         <div className="flex flex-col gap-6 text-lg">
 
-          <p>🏠 Dashboard</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/admin-dashboard")}
+           > 🏠 Dashboard
+          </p>
 
-          <p>👥 Employees</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/admin-profile")}
+           > 👤 Profile
+          </p>
 
-          <p>🕒 Attendance</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/admin-attendance")}
+           > 🕒 Attendance
+          </p>
 
-          <p>📊 Reports</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/adminleaveint")}
+           > 📝 Leave Requests
+          </p>
 
-          <p>⚙ Settings</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/empmanage")}
+           > 👤 Employee Management
+          </p>
 
-          <p>📝 Leave Requests</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/report")}
+           > 📊 Reports
+          </p>
+
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/settings")}
+           > ⚙ Settings
+          </p>
 
         </div>
 

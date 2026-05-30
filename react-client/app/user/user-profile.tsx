@@ -1,9 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function UserProfile() {
 
   const [user, setUser] = useState<any>({});
+    const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -27,13 +29,38 @@ export default function UserProfile() {
 
         <div className="flex flex-col gap-6 text-lg">
 
-          <p>🏠 Dashboard</p>
+          <p
+            className="cursor-pointer"
+            onClick={() => navigate("/user-dashboard")}
+          >
+            🏠 Dashboard
+          </p>
 
-          <p>👤 Profile</p>
+          <p className="cursor-pointer"
+            onClick={() => navigate("/user-profile")}
+          >
+            👤 Profile </p>
 
-          <p>🕒 Attendance</p>
+          <p  className="cursor-pointer"
+            onClick={() => navigate("/checkinout")}
+            > 🕒 Attendance </p>
 
-          <p>📝 Leave</p>
+          <p className="cursor-pointer"
+            onClick={() => navigate("/leave")}
+          >
+            📝 Leave
+          </p>
+          <p className="cursor-pointer"
+            onClick={() => navigate("/notify")}
+          >
+            🔔 Notifications
+          </p>
+
+          <p className="cursor-pointer"
+            onClick={() => navigate("/settings")}
+          >
+            ⚙️ Settings
+          </p>
 
         </div>
 

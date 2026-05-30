@@ -48,10 +48,28 @@ export default function UserDashboard() {
           {/* Attendance */}
           <p
             className="cursor-pointer hover:text-green-300"
-            onClick={() => navigate("/user-attendance")}
+            onClick={() => navigate("/checkinout")}
           >
             🕒 Attendance
           </p>
+          <p className="cursor-pointer"
+            onClick={() => navigate("/leave")}
+          >
+            📝 Leave
+          </p>
+
+          <p className="cursor-pointer"
+            onClick={() => navigate("/notify")}
+          >
+            🔔 Notifications
+          </p>
+
+          <p className="cursor-pointer"
+            onClick={() => navigate("/settings")}
+          >
+            ⚙️ Settings
+          </p>
+
 
         </div>
 

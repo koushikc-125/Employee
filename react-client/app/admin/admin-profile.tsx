@@ -1,9 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router"; 
 
 export default function AdminProfile() {
 
   const [admin, setAdmin] = useState<any>({});
+    const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -26,16 +28,40 @@ export default function AdminProfile() {
         </h1>
 
         <div className="flex flex-col gap-6 text-lg">
+         <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/admin-dashboard")}
+           > 🏠 Dashboard
+          </p>
 
-          <p>🏠 Dashboard</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/user-profile")}
+           > 👤 Profile
+          </p>
 
-          <p>👤 Profile</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/admin-attendance")}
+           > 🕒 Attendance
+          </p>
 
-          <p>👥 Employees</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/adminleaveint")}
+           > 📝 Leave Requests
+          </p>
 
-          <p>🕒 Attendance</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/empmanage")}
+           > 👤 Employee Management
+          </p>
 
-          <p>⚙ Settings</p>
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/report")}
+           > 📊 Reports
+          </p>
+
+          <p className="hover:bg-green-800 cursor-pointer"
+           onClick={() => navigate("/settings")}
+           > ⚙ Settings
+          </p>
 
         </div>
 
