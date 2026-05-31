@@ -31,8 +31,6 @@ router
 
 router
   .route("/me")
-  .post(verifyJWT, getCurrentUser);
-
-
+  .get(verifyJWT, getCurrentUser);
 
 export default router;

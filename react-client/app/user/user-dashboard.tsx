@@ -1,21 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useUser } from "~/hook/useUser";
 
 export default function UserDashboard() {
-
-  const [user, setUser] = useState<any>({});
+  const user = useUser()
   const navigate = useNavigate();
-
-  useEffect(() => {
-
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-  }, []);
 
   return (
     <div className="min-h-screen flex">
@@ -48,28 +38,10 @@ export default function UserDashboard() {
           {/* Attendance */}
           <p
             className="cursor-pointer hover:text-green-300"
-            onClick={() => navigate("/checkinout")}
+            onClick={() => navigate("/user-attendance")}
           >
             🕒 Attendance
           </p>
-          <p className="cursor-pointer"
-            onClick={() => navigate("/leave")}
-          >
-            📝 Leave
-          </p>
-
-          <p className="cursor-pointer"
-            onClick={() => navigate("/notify")}
-          >
-            🔔 Notifications
-          </p>
-
-          <p className="cursor-pointer"
-            onClick={() => navigate("/settings")}
-          >
-            ⚙️ Settings
-          </p>
-
 
         </div>
 

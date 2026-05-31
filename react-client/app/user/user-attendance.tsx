@@ -1,14 +1,29 @@
 import "../app.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useLoaderData } from "react-router";
+import type { Route } from "./+types/user-attendance";
+import { attendanceApi } from "../api/attendanceApi";
+import { useUser } from "~/hook/useUser";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie") || "";
+  try {
+    const response = await attendanceApi.getMyLogs(cookieHeader);
+    return { logs: response.data.data }; 
+  } catch {
+    return { logs: [] };
+  }
+}
 
 export default function UserAttendance() {
-
+ const { logs } = useLoaderData() as { logs: any[] };
   const [user, setUser] = useState<any>({});
   const [attendance, setAttendance] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+console.log(logs);
 
     const storedUser = localStorage.getItem("user");
 

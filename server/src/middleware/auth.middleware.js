@@ -4,28 +4,41 @@ import { User } from "../user/model/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {
-  const token =
-    req.cookies.accessToken ||
+  let token =
+    req.cookies?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
 
-  if (!token) {
-    throw new ApiError(401, "Unauthorized");
+  if (!token && req.headers.cookie) {
+    const rawCookies = req.headers.cookie.split(";");
+    const parsedToken = rawCookies
+      .find((cookie) => cookie.trim().startsWith("accessToken="))
+      ?.split("=")[1];
+    if (parsedToken) {
+      token = decodeURIComponent(parsedToken);
+    }
   }
-  try {
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken?._id).select(
-      "-password -refreshToken"
-    );
-
-    if (!user) {
+    if (!token) {
       throw new ApiError(401, "Unauthorized");
     }
+    try {
+      const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      if (decodedToken.type !== "access") {
+        throw new ApiError(401, "Invalid token type");
+      }
 
-    req.user = user;
+      const user = await User.findById(decodedToken?._id).select(
+        "-password -refreshToken"
+      );
 
-    next();
-  } catch (error) {
-    throw new ApiError(401, error?.message || "Invalide access token");
-  }
-});
+      if (!user) {
+        throw new ApiError(401, "Unauthorized");
+      }
+
+      req.user = user;
+
+      next();
+    } catch (error) {
+      throw new ApiError(401, error?.message || "Invalide access token");
+    }
+  });
