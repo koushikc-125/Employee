@@ -38,7 +38,7 @@ export default function UserDashboard() {
           {/* Attendance */}
           <p
             className="cursor-pointer hover:text-green-300"
-            onClick={() => navigate("/user-attendance")}
+            onClick={() => navigate("/user-checkinout")}
           >
             🕒 Attendance
           </p>
@@ -51,7 +51,7 @@ export default function UserDashboard() {
       <div className="flex-1 p-10">
 
         <h1 className="text-5xl font-bold text-green-100 mb-8">
-          Welcome, {user.name || "Employee"}
+          Welcome, {user?.name || "Employee"}
         </h1>
 
         {/* User Details */}
@@ -64,19 +64,19 @@ export default function UserDashboard() {
           <div className="space-y-4 text-lg">
 
             <p>
-              <strong>Name:</strong> {user.name || "Not Available"}
+              <strong>Name:</strong> {user?.name || "Not Available"}
             </p>
 
             <p>
-              <strong>Email:</strong> {user.email || "Not Available"}
+              <strong>Email:</strong> {user?.email || "Not Available"}
             </p>
 
             <p>
-              <strong>Department:</strong> {user.department || "Not Available"}
+              <strong>Department:</strong> {user?.designation || "Not Available"}
             </p>
 
             <p>
-              <strong>Employee ID:</strong> {user.employeeId || "Not Available"}
+              <strong>Employee ID:</strong> {user?._id || "Not Available"}
             </p>
 
           </div>

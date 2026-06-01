@@ -2,6 +2,13 @@ import { useUser } from "~/hook/useUser"
 
 export default function Welcome() {
     const user = useUser()
+    
+    //Load the pages link according the user type
+    if (user?.role == "user") {
+
+    } else {
+
+    }
 
     return (
         <main className="flex items-center justify-center flex-col">

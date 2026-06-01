@@ -13,9 +13,18 @@ const leaveSchema = new mongoose.Schema(
       enum: ["Sick", "Casual", "Maternity", "Paternity", "Unpaid"],
       required: true,
     },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    reason: { type: String, required: true },
+    startDate: { 
+      type: Date, 
+      required: true 
+    },
+    endDate: { 
+      type: Date, 
+      required: true 
+    },
+    reason: { 
+      type: String, 
+      required: true 
+    },
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],
@@ -23,7 +32,7 @@ const leaveSchema = new mongoose.Schema(
     },
     approvedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Stores which admin approved it
+      ref: "User",
     },
   },
   { timestamps: true }

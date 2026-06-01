@@ -46,8 +46,8 @@ const findUser = asyncHandler(async (req, res) => {
   if (!req.body) {
     throw new ApiError(400, "Body shoud contain email");
   }
-const { email } = req.body;
-const existedUser = await User.findOne({ email });
+  const { email } = req.body;
+  const existedUser = await User.findOne({ email });
   if (!existedUser) {
     throw new ApiError(400, "User is not exists");
   }
@@ -68,11 +68,15 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(400, "User with email already exists");
   }
-
+  const role = "user"
+  const designation = "Software Engineer"
+  
   const user = await User.create({
     name,
     email,
     password,
+    role,
+    designation
   });
 
   const createdUser = await User.findById(user._id).select(

@@ -3,8 +3,9 @@ import { useOutletContext } from "react-router";
 export type User = {
   name: string;
   email: string;
-  _id?: string;
+  _id: string;
   role: string;
+  designation: string;
 };
 
 export type UserContextType = {

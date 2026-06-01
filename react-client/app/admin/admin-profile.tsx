@@ -1,21 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
+import { useUser } from "~/hook/useUser";
 
 export default function AdminProfile() {
-
-  const [admin, setAdmin] = useState<any>({});
-    const navigate = useNavigate();
-
-  useEffect(() => {
-
-    const storedAdmin = localStorage.getItem("admin");
-
-    if (storedAdmin) {
-      setAdmin(JSON.parse(storedAdmin));
-    }
-
-  }, []);
+  const user = useUser()
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex">
@@ -28,39 +18,39 @@ export default function AdminProfile() {
         </h1>
 
         <div className="flex flex-col gap-6 text-lg">
-         <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-dashboard")}
-           > 🏠 Dashboard
+          <p className="hover:bg-green-800 cursor-pointer"
+            onClick={() => navigate("/admin-dashboard")}
+          > 🏠 Dashboard
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/user-profile")}
-           > 👤 Profile
+            onClick={() => navigate("/admin-profile")}
+          > 👤 Profile
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-attendance")}
-           > 🕒 Attendance
+            onClick={() => navigate("/admin-attendance")}
+          > 🕒 Attendance
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/adminleaveint")}
-           > 📝 Leave Requests
+            onClick={() => navigate("/admin-leaveint")}
+          > 📝 Leave Requests
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/empmanage")}
-           > 👤 Employee Management
+            onClick={() => navigate("/admin-empmanage")}
+          > 👤 Employee Management
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/report")}
-           > 📊 Reports
+            onClick={() => navigate("/admin-report")}
+          > 📊 Reports
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/settings")}
-           > ⚙ Settings
+            onClick={() => navigate("/settings")}
+          > ⚙ Settings
           </p>
 
         </div>
@@ -81,7 +71,7 @@ export default function AdminProfile() {
 
             <img
               src={
-                admin.image ||
+                user?.image ||
                 "https://i.pravatar.cc/150"
               }
               alt="Admin"
@@ -94,25 +84,22 @@ export default function AdminProfile() {
           <div className="space-y-4 text-lg">
 
             <p>
-              <strong>Name:</strong> {admin.name || "Not Available"}
+              <strong>Name:</strong> {user?.name || "Not Available"}
             </p>
 
             <p>
-              <strong>Email:</strong> {admin.email || "Not Available"}
+              <strong>Email:</strong> {user?.email || "Not Available"}
             </p>
 
             <p>
-              <strong>Role:</strong> {admin.role || "Administrator"}
+              <strong>Role:</strong> {user?.role || "Administrator"}
             </p>
 
             <p>
-              <strong>Department:</strong> {admin.department || "Management"}
+              <strong>Department:</strong> {user?.designation || "Management"}
             </p>
 
-            <p>
-              <strong>Phone:</strong> {admin.phone || "Not Available"}
-            </p>
-
+            
           </div>
 
         </div>

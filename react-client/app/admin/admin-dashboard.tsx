@@ -1,49 +1,15 @@
 import "../app.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
+import { useUser } from "~/hook/useUser";
 
 export default function AdminDashboard() {
-
-  const [admin, setAdmin] = useState<any>({}); 
+  const user = useUser()
+  const [admin, setAdmin] = useState<any>({});
   const navigate = useNavigate();
   const [employees, setEmployees] = useState<any[]>([]);
   const [presentCount, setPresentCount] = useState(0);
   const [leaveCount, setLeaveCount] = useState(0);
-
-  useEffect(() => {
-
-    // Admin Data
-    const storedAdmin = localStorage.getItem("admin");
-
-    if (storedAdmin) {
-      setAdmin(JSON.parse(storedAdmin));
-    }
-
-    // Employee Data
-    const storedEmployees = localStorage.getItem("employees");
-
-    if (storedEmployees) {
-
-      const employeeList = JSON.parse(storedEmployees);
-
-      setEmployees(employeeList);
-
-      // Present Employees
-      const presentEmployees = employeeList.filter(
-        (employee: any) => employee.status === "Present"
-      );
-
-      setPresentCount(presentEmployees.length);
-
-      // Leave Requests
-      const leaveEmployees = employeeList.filter(
-        (employee: any) => employee.leave === true
-      );
-
-      setLeaveCount(leaveEmployees.length);
-    }
-
-  }, []);
 
   return (
     <div className="min-h-screen flex">
@@ -58,38 +24,38 @@ export default function AdminDashboard() {
         <div className="flex flex-col gap-6 text-lg">
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-dashboard")}
-           > 🏠 Dashboard
+            onClick={() => navigate("/admin-dashboard")}
+          > 🏠 Dashboard
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-profile")}
-           > 👤 Profile
+            onClick={() => navigate("/admin-profile")}
+          > 👤 Profile
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-attendance")}
-           > 🕒 Attendance
+            onClick={() => navigate("/admin-attendance")}
+          > 🕒 Attendance
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/adminleaveint")}
-           > 📝 Leave Requests
+            onClick={() => navigate("/admin-leaveint")}
+          > 📝 Leave Requests
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/empmanage")}
-           > 👤 Employee Management
+            onClick={() => navigate("/admin-empmanage")}
+          > 👤 Employee Management
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/report")}
-           > 📊 Reports
+            onClick={() => navigate("/admin-report")}
+          > 📊 Reports
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/settings")}
-           > ⚙ Settings
+            onClick={() => navigate("/settings")}
+          > ⚙ Settings
           </p>
 
         </div>
@@ -100,7 +66,7 @@ export default function AdminDashboard() {
       <div className="flex-1 p-10">
 
         <h1 className="text-5xl font-bold text-green-100 mb-8">
-          Welcome, {admin.name || "Admin"}
+          Welcome, {user?.name || "Admin"}
         </h1>
 
         {/* Admin Details */}
@@ -113,19 +79,19 @@ export default function AdminDashboard() {
           <div className="space-y-4 text-lg">
 
             <p>
-              <strong>Name:</strong> {admin.name || "Not Available"}
+              <strong>Name:</strong> {user?.name || "Not Available"}
             </p>
 
             <p>
-              <strong>Email:</strong> {admin.email || "Not Available"}
+              <strong>Email:</strong> {user?.email || "Not Available"}
             </p>
 
             <p>
-              <strong>Role:</strong> {admin.role || "Administrator"}
+              <strong>Role:</strong> {user?.role || "Administrator"}
             </p>
 
             <p>
-              <strong>Department:</strong> {admin.department || "Management"}
+              <strong>Department:</strong> {user?.department || "Management"}
             </p>
 
           </div>

@@ -44,17 +44,17 @@ export default function AdminAttendance() {
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/adminleaveint")}
+           onClick={() => navigate("/admin-leaveint")}
            > 📝 Leave Requests
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/empmanage")}
+           onClick={() => navigate("/admin-empmanage")}
            > 👤 Employee Management
           </p>
 
           <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/report")}
+           onClick={() => navigate("/admin-report")}
            > 📊 Reports
           </p>
 

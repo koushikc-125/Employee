@@ -8,8 +8,6 @@ export async function loader() {
 export default function UserLayout() {
   const user = useUser()
   if (!user || user.role !== 'user') {
-    console.log(user);
-
     return <Navigate to="/" replace />;
   }
 

@@ -1,21 +1,11 @@
 import "../app.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useUser } from "~/hook/useUser";
 
 export default function UserProfile() {
-
-  const [user, setUser] = useState<any>({});
-    const navigate = useNavigate();
-
-  useEffect(() => {
-
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-  }, []);
+  const user = useUser();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex">
@@ -41,9 +31,9 @@ export default function UserProfile() {
           >
             👤 Profile </p>
 
-          <p  className="cursor-pointer"
-            onClick={() => navigate("/checkinout")}
-            > 🕒 Attendance </p>
+          <p className="cursor-pointer"
+            onClick={() => navigate("/user-attendance")}
+          > 🕒 Attendance </p>
 
           <p className="cursor-pointer"
             onClick={() => navigate("/leave")}
@@ -93,24 +83,21 @@ export default function UserProfile() {
           <div className="space-y-4 text-lg">
 
             <p>
-              <strong>Name:</strong> {user.name || "Not Available"}
+              <strong>Name:</strong> {user?.name || "Not Available"}
             </p>
 
             <p>
-              <strong>Email:</strong> {user.email || "Not Available"}
+              <strong>Email:</strong> {user?.email || "Not Available"}
             </p>
 
             <p>
-              <strong>Employee ID:</strong> {user.employeeId || "Not Available"}
+              <strong>Employee ID:</strong> {user?._id || "Not Available"}
             </p>
 
             <p>
-              <strong>Department:</strong> {user.department || "Not Available"}
+              <strong>Department:</strong> {user?.designation || "Not Available"}
             </p>
 
-            <p>
-              <strong>Phone:</strong> {user.phone || "Not Available"}
-            </p>
 
           </div>
 

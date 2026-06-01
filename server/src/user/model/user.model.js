@@ -34,8 +34,15 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      required: true,
+      index: true,
       enum: ['user', 'admin'],
-      default: 'user'
+    },
+    designation: {
+      type: String,
+      required: true,
+      index: true,
+      enum: ['Finance','Software Engineer','Data Analyst']
     },
     refreshToken: [RefreshTokenSchema],
     isEmailVerified: {
@@ -58,11 +65,10 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
 
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 
 });
 
