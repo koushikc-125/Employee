@@ -1,54 +1,67 @@
-import { Outlet, Navigate, useLoaderData } from "react-router";
+import { Outlet, Navigate } from "react-router";
+import { useNavigate } from "react-router";
+import type { Route } from "./+types/layout";
 import { useUser } from "~/hook/useUser";
 
-export async function loader() {
+export async function loader({ request }: Route.LoaderArgs) {
   return null;
 }
 
-export default function UserLayout() {
-  const user = useUser()
-  if (!user || user.role !== 'user') {
+export default function AdminProtectedLayout(){
+  const user = useUser();
+ const navigate = useNavigate();
+  if (!user || user.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 
-  return (
-    <div className="h-full w-full flex-1 items-start lg:grid lg:gap-10 lg:grid-cols-[300px_minmax(0,1fr)]">
+return (
+  <div className="flex flex-row">
+  <div className="w-64 p-6 bg-[#182422] border-r border-[#5f7f7a]">
+      <h1 className="text-3xl font-bold text-[#eef7f6] mb-10">
+        Employee App
+      </h1>
 
-      <aside className="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 flex-col lg:sticky lg:flex lg:self-start">
+      <div className="flex flex-col gap-6 text-lg text-[#92beb9]">
 
-        <div className="h-full p-6 bg-[#162E1A] border-r border-green-900">
 
-          <h1 className="text-3xl font-bold text-green-100 mb-10">
-            Employee App
-          </h1>
+          <p
+            className="cursor-pointer"
+             onClick={() => navigate("/user-dashboard")}
+          >
+            🏠 Dashboard
+          </p>
 
-          <div className="flex flex-col gap-6 text-lg">
+          <p
+            className="cursor-pointer"
+              onClick={() => navigate("/user-profile")}
+          >
+            👤 Profile
+          </p>
 
+          <p
+            className="cursor-pointer"
+              onClick={() => navigate("/user-checkinout")}
+          >
+            🕒 Attendance
+          </p>
             <p
-              className="cursor-pointer"
+            className="cursor-pointer"
+              onClick={() => navigate("/user-leave")}
             >
-              🏠 Dashboard
-            </p>
+            📝 Leave
+          </p>
+          <p
+            className="cursor-pointer"
+              onClick={() => navigate("/user-notify")}
+          >
+            📢 Notifications
+          </p>
 
-            <p
-              className="cursor-pointer"
-            >
-              👤 Profile
-            </p>
+      </div>
+</div>
 
-            <p
-              className="cursor-pointer"
-            >
-              🕒 Attendance
-            </p>
+    <Outlet context={{ user }} />
 
-          </div>
-
-        </div>
-      </aside>
-
-      <Outlet context={{ user }} />
-
-    </div>
-  );
+  </div>
+);
 }

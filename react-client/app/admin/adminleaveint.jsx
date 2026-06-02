@@ -41,7 +41,7 @@ function AdminLeaveManagement() {
         style={{
           textAlign: "center",
           marginBottom: "20px",
-          color: "#1e293b",
+          color: "var(--default)",
         }}
       >
         Admin Leave Management

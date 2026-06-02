@@ -12,132 +12,83 @@ export default function AdminDashboard() {
   const [leaveCount, setLeaveCount] = useState(0);
 
   return (
-    <div className="min-h-screen flex">
+<div className="min-h-screen flex">
 
-      {/* Sidebar */}
-      <div className="w-64 p-6 bg-[#162E1A] border-r border-green-900">
+  {/* Main Content */}
+  <div className="flex-1 p-10">
 
-        <h1 className="text-3xl font-bold text-green-100 mb-10">
-          Admin Panel
-        </h1>
+    <h1 className="text-5xl font-bold text-[#eef7f6] mb-8">
+      Welcome, {user?.name || "Admin"}
+    </h1>
 
-        <div className="flex flex-col gap-6 text-lg">
+    {/* Admin Details */}
+    <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-8 w-[500px]">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-dashboard")}
-          > 🏠 Dashboard
-          </p>
+      <h2 className="text-2xl font-bold text-[#eef7f6] mb-6">
+        Admin Details
+      </h2>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-profile")}
-          > 👤 Profile
-          </p>
+      <div className="space-y-4 text-lg text-[#92beb9]">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-attendance")}
-          > 🕒 Attendance
-          </p>
+        <p>
+          <strong className="text-[#eef7f6]">Name:</strong> {user?.name || "Not Available"}
+        </p>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-leaveint")}
-          > 📝 Leave Requests
-          </p>
+        <p>
+          <strong className="text-[#eef7f6]">Email:</strong> {user?.email || "Not Available"}
+        </p>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-empmanage")}
-          > 👤 Employee Management
-          </p>
+        <p>
+          <strong className="text-[#eef7f6]">Role:</strong> {user?.role || "Administrator"}
+        </p>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-report")}
-          > 📊 Reports
-          </p>
-
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/settings")}
-          > ⚙ Settings
-          </p>
-
-        </div>
-
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-10">
-
-        <h1 className="text-5xl font-bold text-green-100 mb-8">
-          Welcome, {user?.name || "Admin"}
-        </h1>
-
-        {/* Admin Details */}
-        <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-8 w-[500px]">
-
-          <h2 className="text-2xl font-bold text-green-100 mb-6">
-            Admin Details
-          </h2>
-
-          <div className="space-y-4 text-lg">
-
-            <p>
-              <strong>Name:</strong> {user?.name || "Not Available"}
-            </p>
-
-            <p>
-              <strong>Email:</strong> {user?.email || "Not Available"}
-            </p>
-
-            <p>
-              <strong>Role:</strong> {user?.role || "Administrator"}
-            </p>
-
-            <p>
-              <strong>Department:</strong> {user?.department || "Management"}
-            </p>
-
-          </div>
-
-        </div>
-
-        {/* Dashboard Cards */}
-        <div className="mt-10 flex gap-6 flex-wrap">
-
-          {/* Total Employees */}
-          <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-6 w-60">
-
-            <h3>Total Employees</h3>
-
-            <h1 className="text-4xl font-bold text-green-100 mt-3">
-              {employees.length}
-            </h1>
-
-          </div>
-
-          {/* Present Today */}
-          <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-6 w-60">
-
-            <h3>Present Today</h3>
-
-            <h1 className="text-4xl font-bold text-green-100 mt-3">
-              {presentCount}
-            </h1>
-
-          </div>
-
-          {/* Leave Requests */}
-          <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-6 w-60">
-
-            <h3>Pending Leaves</h3>
-
-            <h1 className="text-4xl font-bold text-green-100 mt-3">
-              {leaveCount}
-            </h1>
-
-          </div>
-
-        </div>
+        <p>
+          <strong className="text-[#eef7f6]">Department:</strong> {user?.designation || "jjkl"}
+        </p>
 
       </div>
 
     </div>
-  );
-}
+
+    {/* Dashboard Cards */}
+    <div className="mt-10 flex gap-6 flex-wrap">
+
+      {/* Total Employees */}
+      <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-6 w-60">
+
+        <h3 className="text-[#92beb9]">Total Employees</h3>
+
+        <h1 className="text-4xl font-bold text-[#eef7f6] mt-3">
+          {employees.length}
+        </h1>
+
+      </div>
+
+      {/* Present Today */}
+      <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-6 w-60">
+
+        <h3 className="text-[#92beb9]">Present Today</h3>
+
+        <h1 className="text-4xl font-bold text-[#eef7f6] mt-3">
+          {presentCount}
+        </h1>
+
+      </div>
+
+      {/* Leave Requests */}
+      <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-6 w-60">
+
+        <h3 className="text-[#92beb9]">Pending Leaves</h3>
+
+        <h1 className="text-4xl font-bold text-[#eef7f6] mt-3">
+          {leaveCount}
+        </h1>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div> 
+)}

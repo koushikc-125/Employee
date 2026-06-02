@@ -48,147 +48,146 @@ function NotificationsPage() {
   };
 
   return (
+  <div
+    style={{
+      minHeight: "100vh",
+      padding: "40px",
+      fontFamily: "Arial",
+      background: "#101918",
+      color: "#92beb9",
+    }}
+  >
+    {/* Header */}
     <div
       style={{
-       
-        minHeight: "100vh",
-        padding: "40px",
-        fontFamily: "Arial",
+        padding: "25px",
+        borderRadius: "12px",
+        boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+        marginBottom: "30px",
+        background: "#182422",
+        border: "1px solid #5f7f7a",
       }}
     >
-      {/* Header */}
-      <div
+      <h1
         style={{
-      
-          padding: "25px",
-          borderRadius: "12px",
-          boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-          marginBottom: "30px",
+          textAlign: "center",
+          color: "#eef7f6",
+          margin: 0,
         }}
       >
-        <h1
-          style={{
-            textAlign: "center",
-            color: "#77a8ed",
-            margin: 0,
-          }}
-        >
-          Notifications Center
-        </h1>
+        Notifications Center
+      </h1>
 
-        <p
-          style={{
-            textAlign: "center",
-            color: "#77a8ed",
-            marginTop: "10px",
-          }}
-        >
-          Employee Alerts & System Notifications
-        </p>
-      </div>
-
-      {/* Notifications List */}
-      <div
+      <p
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
+          textAlign: "center",
+          color: "#92beb9",
+          marginTop: "10px",
         }}
       >
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            style={{
-              padding: "20px",
-              borderRadius: "12px",
-              boxShadow:
-                "0px 4px 10px rgba(0,0,0,0.08)",
-              borderLeft: `6px solid ${
-                notification.type === "success"
-                  ? "#16a34a"
-                  : notification.type === "warning"
-                  ? "#f59e0b"
-                  : "#2563eb"
-              }`,
-            }}
-          >
-            {/* Top Section */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h3
-                style={{
-                  margin: 0,
-                  color: "#d4dce9",
-                }}
-              >
-                {notification.title}
-              </h3>
-
-              <span
-                style={{
-                  color: "#e5ecf6",
-                  fontSize: "14px",
-                }}
-              >
-                {notification.time}
-              </span>
-            </div>
-
-            {/* Message */}
-            <p
-              style={{
-                color: "#e5ecf6",
-                marginTop: "10px",
-                marginBottom: "15px",
-              }}
-            >
-              {notification.message}
-            </p>
-
-            {/* Buttons */}
-            <div>
-              <button
-                style={viewBtn}
-              >
-                View
-              </button>
-
-              <button
-                onClick={() =>
-                  handleDelete(notification.id)
-                }
-                style={deleteBtn}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-
-        {/* No Notifications */}
-        {notifications.length === 0 && (
-          <div
-            style={{
-              //background: "white",
-              padding: "30px",
-              borderRadius: "12px",
-              textAlign: "center",
-              color: "#e5ecf6",
-              boxShadow:
-                "0px 4px 10px rgba(0,0,0,0.08)",
-            }}
-          >
-            No Notifications Available
-          </div>
-        )}
-      </div>
+        Employee Alerts & System Notifications
+      </p>
     </div>
-  );
+
+    {/* Notifications List */}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+      }}
+    >
+      {notifications.map((notification) => (
+        <div
+          key={notification.id}
+          style={{
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0px 4px 10px rgba(0,0,0,0.08)",
+            background: "#182422",
+            border: "1px solid #5f7f7a",
+            borderLeft: `6px solid #5f7f7a`,
+          }}
+        >
+          {/* Top Section */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3
+              style={{
+                margin: 0,
+                color: "#eef7f6",
+              }}
+            >
+              {notification.title}
+            </h3>
+
+            <span
+              style={{
+                color: "#92beb9",
+                fontSize: "14px",
+              }}
+            >
+              {notification.time}
+            </span>
+          </div>
+
+          {/* Message */}
+          <p
+            style={{
+              color: "#92beb9",
+              marginTop: "10px",
+              marginBottom: "15px",
+            }}
+          >
+            {notification.message}
+          </p>
+
+          {/* Buttons */}
+          <div>
+            <button
+              style={viewBtn}
+            >
+              View
+            </button>
+
+            <button
+              onClick={() =>
+                handleDelete(notification.id)
+              }
+              style={deleteBtn}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ))}
+
+      {/* No Notifications */}
+      {notifications.length === 0 && (
+        <div
+          style={{
+            padding: "30px",
+            borderRadius: "12px",
+            textAlign: "center",
+            color: "#92beb9",
+            background: "#182422",
+            border: "1px solid #5f7f7a",
+            boxShadow:
+              "0px 4px 10px rgba(0,0,0,0.08)",
+          }}
+        >
+          No Notifications Available
+        </div>
+      )}
+    </div>
+  </div>
+);
 }
 
 // Button Styles

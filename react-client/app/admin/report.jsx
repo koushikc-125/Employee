@@ -43,7 +43,7 @@ function ReportsPage() {
           style={{
             textAlign: "center",
             margin: 0,
-            color: "#1e293b",
+            color: "var(--default)",
           }}
         >
           Attendance Reports
@@ -53,7 +53,7 @@ function ReportsPage() {
           style={{
             textAlign: "center",
             marginTop: "10px",
-            color: "#64748b",
+            color: "var(--default)",
           }}
         >
           Employee Attendance & Work Reports
@@ -220,7 +220,7 @@ function ReportsPage() {
                   style={{
                     textAlign: "center",
                     padding: "20px",
-                    color: "#64748b",
+                    color: "var(--default)",
                   }}
                 >
                   No Reports Found

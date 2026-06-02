@@ -86,195 +86,195 @@ function BiometricAttendance() {
     setAttendance(updatedAttendance);
   };
 
-  return (
+return (
+  <div
+    style={{
+      minHeight: "100vh",
+      padding: "40px",
+      fontFamily: "Arial",
+      background: "#101918",
+      color: "#92beb9",
+    }}
+  >
+    {/* Header */}
     <div
       style={{
-        minHeight: "100vh",
-        padding: "40px",
-        fontFamily: "Arial",
+        background: "#182422",
+        padding: "25px",
+        borderRadius: "12px",
+        boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+        marginBottom: "30px",
+        border: "1px solid #5f7f7a",
       }}
     >
-      {/* Header */}
-      <div
+      <h1
         style={{
-          background: "white",
-          padding: "25px",
-          borderRadius: "12px",
-          boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-          marginBottom: "30px",
+          margin: 0,
+          textAlign: "center",
+          color: "#eef7f6",
         }}
       >
-        <h1
-          style={{
-            margin: 0,
-            textAlign: "center",
-            color: "#1e293b",
-          }}
-        >
-          Employee Biometric Attendance System
-        </h1>
+        Employee Biometric Attendance System
+      </h1>
 
-        <p
-          style={{
-            textAlign: "center",
-            color: "#64748b",
-            marginTop: "10px",
-          }}
-        >
-          Fingerprint Based Employee Attendance Monitoring
-        </p>
-      </div>
-
-      {/* Live Clock */}
-      <div
+      <p
         style={{
           textAlign: "center",
-          marginBottom: "30px",
+          color: "#92beb9",
+          marginTop: "10px",
         }}
       >
-        <h2
-          style={{
-            fontSize: "42px",
-            color: "#08580a",
-            margin: 0,
-          }}
-        >
-          {currentTime.toLocaleTimeString()}
-        </h2>
-      </div>
+        Fingerprint Based Employee Attendance Monitoring
+      </p>
+    </div>
 
-      {/* Buttons */}
-      <div
+    {/* Live Clock */}
+    <div
+      style={{
+        textAlign: "center",
+        marginBottom: "30px",
+      }}
+    >
+      <h2
         style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          marginBottom: "35px",
+          fontSize: "42px",
+          color: "#eef7f6",
+          margin: 0,
         }}
       >
-        {/* Check In */}
-        <button
-          onClick={handleCheckIn}
-          style={{
-            background: "#16a34a",
-            color: "white",
-            border: "none",
-            padding: "14px 28px",
-            borderRadius: "10px",
-            fontSize: "16px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            boxShadow: "0px 4px 10px rgba(22,163,74,0.3)",
-          }}
-        >
-          Fingerprint Check In
-        </button>
+        {currentTime.toLocaleTimeString()}
+      </h2>
+    </div>
 
-        {/* Check Out */}
-        <button
-          onClick={handleCheckOut}
-          style={{
-            background: "#dc2626",
-            color: "white",
-            border: "none",
-            padding: "14px 28px",
-            borderRadius: "10px",
-            fontSize: "16px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            boxShadow: "0px 4px 10px rgba(220,38,38,0.3)",
-          }}
-        >
-          Fingerprint Check Out
-        </button>
-      </div>
-
-      {/* Attendance Table */}
-      <div
+    {/* Buttons */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        gap: "20px",
+        marginBottom: "35px",
+      }}
+    >
+      {/* Check In */}
+      <button
+        onClick={handleCheckIn}
         style={{
-          background: "white",
-          borderRadius: "12px",
-          overflow: "hidden",
-          boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+          background: "#2563eb",
+          color: "#eef7f6",
+          border: "1px solid #5f7f7a",
+          padding: "14px 28px",
+          borderRadius: "10px",
+          fontSize: "16px",
+          cursor: "pointer",
+          fontWeight: "bold",
+          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
         }}
       >
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-          }}
-        >
-          <thead>
-            <tr
-              style={{
-                background: "#2563eb",
-                color: "white",
-              }}
-            >
-              <th style={tableHead}>Employee ID</th>
-              <th style={tableHead}>Employee Name</th>
-              <th style={tableHead}>Check In Time</th>
-              <th style={tableHead}>Check Out Time</th>
-              <th style={tableHead}>Status</th>
-            </tr>
-          </thead>
+        Fingerprint Check In
+      </button>
 
-          <tbody>
-            {attendance.length > 0 ? (
-              attendance.map((emp, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    borderBottom: "1px solid #e2e8f0",
-                  }}
-                >
-                  <td style={tableData}>{emp.id}</td>
+      {/* Check Out */}
+      <button
+        onClick={handleCheckOut}
+        style={{
+          background:"#dc2626" ,
+          color: "#eef7f6",
+          border: "1px solid #5f7f7a",
+          padding: "14px 28px",
+          borderRadius: "10px",
+          fontSize: "16px",
+          cursor: "pointer",
+          fontWeight: "bold",
+          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+        }}
+      >
+        Fingerprint Check Out
+      </button>
+    </div>
 
-                  <td style={tableData}>{emp.name}</td>
+    {/* Attendance Table */}
+    <div
+      style={{
+        background: "#182422",
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+        border: "1px solid #5f7f7a",
+      }}
+    >
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+        }}
+      >
+        <thead>
+          <tr
+            style={{
+              background: "#182422",
+              color: "#eef7f6",
+              borderBottom: "1px solid #5f7f7a",
+            }}
+          >
+            <th style={tableHead}>Employee ID</th>
+            <th style={tableHead}>Employee Name</th>
+            <th style={tableHead}>Check In Time</th>
+            <th style={tableHead}>Check Out Time</th>
+            <th style={tableHead}>Status</th>
+          </tr>
+        </thead>
 
-                  <td style={tableData}>
-                    {emp.checkInTime}
-                  </td>
+        <tbody>
+          {attendance.length > 0 ? (
+            attendance.map((emp, index) => (
+              <tr
+                key={index}
+                style={{
+                  borderBottom: "1px solid #5f7f7a",
+                }}
+              >
+                <td style={{ ...tableData, color: "#92beb9" }}>{emp.id}</td>
 
-                  <td style={tableData}>
-                    {emp.checkOutTime}
-                  </td>
+                <td style={{ ...tableData, color: "#92beb9" }}>{emp.name}</td>
 
-                  <td
-                    style={{
-                      ...tableData,
-                      color:
-                        emp.status === "On Time"
-                          ? "green"
-                          : emp.status === "Late Check In"
-                          ? "orange"
-                          : "red",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {emp.status}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
+                <td style={{ ...tableData, color: "#92beb9" }}>
+                  {emp.checkInTime}
+                </td>
+
+                <td style={{ ...tableData, color: "#92beb9" }}>
+                  {emp.checkOutTime}
+                </td>
+
                 <td
-                  colSpan="5"
                   style={{
-                    padding: "20px",
-                    textAlign: "center",
-                    color: "#64748b",
+                    ...tableData,
+                    color: "#eef7f6",
+                    fontWeight: "bold",
                   }}
                 >
-                  No attendance records found
+                  {emp.status}
                 </td>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan="5"
+                style={{
+                  padding: "20px",
+                  textAlign: "center",
+                  color: "#92beb9",
+                }}
+              >
+                No attendance records found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
 }
 
 // Table Header Style

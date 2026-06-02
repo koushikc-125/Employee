@@ -16,122 +16,74 @@ export default function AdminAttendance() {
 
   }, []);
 
-  return (
-    <div className="min-h-screen flex">
+return (
+  <div className="min-h-screen flex">
 
-      {/* Sidebar */}
-      <div className="w-64 p-6 bg-[#162E1A] border-r border-green-900">
+    {/* Main Content */}
+    <div className="flex-1 p-10">
 
-        <h1 className="text-3xl font-bold text-green-100 mb-10">
-          Admin Panel
-        </h1>
+      <h1 className="text-5xl font-bold text-[#eef7f6] mb-8">
+        Employee Attendance
+      </h1>
 
-        <div className="flex flex-col gap-6 text-lg">
+      {/* Attendance Table */}
+      <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-6">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-dashboard")}
-           > 🏠 Dashboard
-          </p>
+        <table className="w-full">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-profile")}
-           > 👤 Profile
-          </p>
+          <thead>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-attendance")}
-           > 🕒 Attendance
-          </p>
+            <tr className="border-b border-[#5f7f7a] text-left text-[#eef7f6]">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-leaveint")}
-           > 📝 Leave Requests
-          </p>
+              <th className="pb-4">Employee Name</th>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-empmanage")}
-           > 👤 Employee Management
-          </p>
+              <th className="pb-4">Employee ID</th>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/admin-report")}
-           > 📊 Reports
-          </p>
+              <th className="pb-4">Date</th>
 
-          <p className="hover:bg-green-800 cursor-pointer"
-           onClick={() => navigate("/settings")}
-           > ⚙ Settings
-          </p>
+              <th className="pb-4">Status</th>
 
-        </div>
+            </tr>
 
-      </div>
+          </thead>
 
-      {/* Main Content */}
-      <div className="flex-1 p-10">
+          <tbody>
 
-        <h1 className="text-5xl font-bold text-green-100 mb-8">
-          Employee Attendance
-        </h1>
+            {attendance.map((item, index) => (
 
-        {/* Attendance Table */}
-        <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-6">
+              <tr
+                key={index}
+                className="border-b border-[#5f7f7a] text-[#92beb9]"
+              >
 
-          <table className="w-full">
+                <td className="py-4">
+                  {item.name}
+                </td>
 
-            <thead>
+                <td>
+                  {item.employeeId}
+                </td>
 
-              <tr className="border-b border-green-900 text-left">
+                <td>
+                  {item.date}
+                </td>
 
-                <th className="pb-4">Employee Name</th>
-
-                <th className="pb-4">Employee ID</th>
-
-                <th className="pb-4">Date</th>
-
-                <th className="pb-4">Status</th>
+                <td className="text-[#eef7f6]">
+                  {item.status}
+                </td>
 
               </tr>
 
-            </thead>
+            ))}
 
-            <tbody>
+          </tbody>
 
-              {attendance.map((item, index) => (
-
-                <tr
-                  key={index}
-                  className="border-b border-green-900"
-                >
-
-                  <td className="py-4">
-                    {item.name}
-                  </td>
-
-                  <td>
-                    {item.employeeId}
-                  </td>
-
-                  <td>
-                    {item.date}
-                  </td>
-
-                  <td className="text-green-300">
-                    {item.status}
-                  </td>
-
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
-
-        </div>
+        </table>
 
       </div>
 
     </div>
-  );
+
+  </div>
+);
 }

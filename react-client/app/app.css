@@ -12,9 +12,12 @@ body {
 }
 
 :root {
-  --default: #ffffff;
-  --subdued: #e0e0e0;
-  --background: #000000;
-  --secondary: #1a1a1a;
-  --border: #00ffff;
+    --default: #eef7f6;
+    --subdued: #92beb9;
+    --background: #101918;
+    --secondary: #182422;
+    --border: #5f7f7a;
+    --button-bg: #2563eb; 
+    --button-bg2: #dc2626;
+
 }

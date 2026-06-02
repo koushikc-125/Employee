@@ -8,104 +8,54 @@ export default function AdminProfile() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex">
+  <div className="min-h-screen flex">
 
-      {/* Sidebar */}
-      <div className="w-64 p-6 bg-[#162E1A] border-r border-green-900">
+  {/* Main Content */}
+  <div className="flex-1 p-10">
 
-        <h1 className="text-3xl font-bold text-green-100 mb-10">
-          Admin Panel
-        </h1>
+    <h1 className="text-5xl font-bold text-[#eef7f6] mb-8">
+      Admin Profile
+    </h1>
 
-        <div className="flex flex-col gap-6 text-lg">
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-dashboard")}
-          > 🏠 Dashboard
-          </p>
+    <div className="bg-[#182422] border border-[#5f7f7a] rounded-2xl p-8 w-[500px]">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-profile")}
-          > 👤 Profile
-          </p>
+      {/* Profile Image */}
+      <div className="flex justify-center mb-6">
 
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-attendance")}
-          > 🕒 Attendance
-          </p>
-
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-leaveint")}
-          > 📝 Leave Requests
-          </p>
-
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-empmanage")}
-          > 👤 Employee Management
-          </p>
-
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/admin-report")}
-          > 📊 Reports
-          </p>
-
-          <p className="hover:bg-green-800 cursor-pointer"
-            onClick={() => navigate("/settings")}
-          > ⚙ Settings
-          </p>
-
-        </div>
+        <img
+          src={
+            user?.image ||
+            "https://i.pravatar.cc/150"
+          }
+          alt="Admin"
+          className="w-32 h-32 rounded-full border-4 border-[#5f7f7a]"
+        />
 
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 p-10">
+      {/* Admin Details */}
+      <div className="space-y-4 text-lg text-[#92beb9]">
 
-        <h1 className="text-5xl font-bold text-green-100 mb-8">
-          Admin Profile
-        </h1>
+        <p>
+          <strong className="text-[#eef7f6]">Name:</strong> {user?.name || "Not Available"}
+        </p>
 
-        <div className="bg-[#162E1A] border border-green-900 rounded-2xl p-8 w-[500px]">
+        <p>
+          <strong className="text-[#eef7f6]">Email:</strong> {user?.email || "Not Available"}
+        </p>
 
-          {/* Profile Image */}
-          <div className="flex justify-center mb-6">
+        <p>
+          <strong className="text-[#eef7f6]">Role:</strong> {user?.role || "Administrator"}
+        </p>
 
-            <img
-              src={
-                user?.image ||
-                "https://i.pravatar.cc/150"
-              }
-              alt="Admin"
-              className="w-32 h-32 rounded-full border-4 border-green-900"
-            />
-
-          </div>
-
-          {/* Admin Details */}
-          <div className="space-y-4 text-lg">
-
-            <p>
-              <strong>Name:</strong> {user?.name || "Not Available"}
-            </p>
-
-            <p>
-              <strong>Email:</strong> {user?.email || "Not Available"}
-            </p>
-
-            <p>
-              <strong>Role:</strong> {user?.role || "Administrator"}
-            </p>
-
-            <p>
-              <strong>Department:</strong> {user?.designation || "Management"}
-            </p>
-
-            
-          </div>
-
-        </div>
+        <p>
+          <strong className="text-[#eef7f6]">Department:</strong> {user?.designation || "Management"}
+        </p>
 
       </div>
 
     </div>
-  );
-}
+
+  </div>
+</div>
+)}
