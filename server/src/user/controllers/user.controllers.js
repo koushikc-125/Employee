@@ -5,6 +5,12 @@ import { User } from "../model/user.model.js";
 import jwt from "jsonwebtoken";
 import { verifyJWT } from "../../middleware/auth.middleware.js";
 
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  path: "/",
+};
+
 const generateAccessAndRefreshToken = async (userId, { userAgent, ipAddress }) => {
   try {
     const user = await User.findById(userId);
@@ -15,20 +21,19 @@ const generateAccessAndRefreshToken = async (userId, { userAgent, ipAddress }) =
     const refreshToken = user.generateRefreshToken();
 
     await User.findByIdAndUpdate(userId, {
-      $set: {
-        refreshToken: [
-          {
-            token: refreshToken,
-            userAgent: userAgent || "unknown",
-            ipAddress: ipAddress || "unknown",
-            issuedAt: new Date(),
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-          },
-        ],
+      $push: {
+        refreshToken:
+        {
+          token: refreshToken,
+          userAgent: userAgent || "unknown",
+          ipAddress: ipAddress || "unknown",
+          issuedAt: new Date(),
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
       },
     });
 
-    return { accessToken };
+    return { accessToken, refreshToken };
   } catch (error) {
     throw new ApiError(
       500,
@@ -41,7 +46,7 @@ const findUser = asyncHandler(async (req, res) => {
   if (!req.body) {
     throw new ApiError(400, "Body shoud contain email");
   }
-
+  const { email } = req.body;
   const existedUser = await User.findOne({ email });
   if (!existedUser) {
     throw new ApiError(400, "User is not exists");
@@ -63,11 +68,15 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(400, "User with email already exists");
   }
-
+  const role = "user"
+  const designation = "Software Engineer"
+  
   const user = await User.create({
     name,
     email,
     password,
+    role,
+    designation
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -105,7 +114,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  const { accessToken } = await generateAccessAndRefreshToken(
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id,
     {
       userAgent: req.headers["user-agent"],
@@ -121,18 +130,14 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
   }
 
-  const options = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  };
-
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshToken", refreshToken, cookieOptions)
     .json(
       new ApiResponse(
         200,
-        { user: loggedInUser, accessToken },
+        { user: loggedInUser, accessToken, refreshToken },
         "User logged in successfully"
       )
     );
@@ -143,19 +148,16 @@ const logoutUser = asyncHandler(async (req, res) => {
     req.user._id,
     {
       $set: {
-        refreshToken: undefined,
+        refreshToken: [],
       },
     },
     { new: true }
   );
-  const options = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  };
 
   return res
     .status(200)
-    .clearCookie("accessToken", options)
+    .clearCookie("accessToken", cookieOptions)
+    .clearCookie("refreshToken", cookieOptions)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
@@ -163,7 +165,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select(
       "-password -refreshToken"
-    );;
+    )
     if (!user) {
       throw new ApiError(401, "Invalid access token");
     }
@@ -187,36 +189,36 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const expiredAccessToken =
-    req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+    req.cookies.refreshToken || req.header("Authorization")?.replace("Bearer ", "");
 
   if (!expiredAccessToken) {
-    throw new ApiError(401, "Access token is required");
+    throw new ApiError(401, "Refresh token is required");
   }
 
   try {
     const decodedToken = jwt.verify(
       expiredAccessToken,
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.REFRESH_TOKEN_SECRET,
       { ignoreExpiration: true }
     );
+
+    if (decodedToken.type !== "refresh") {
+      throw new ApiError(401, "Invalid token type");
+    }
+
     const user = await User.findById(decodedToken?._id);
     if (!user) {
       throw new ApiError(401, "Invalid refresh token");
     }
     const storedToken = user.refreshToken.find(
-      (t) => t.expiresAt > new Date()
+      (t) => t.token === expiredAccessToken && t.expiresAt > new Date()
     );
 
     if (!storedToken) {
       throw new ApiError(401, "Refresh token is expired or already used");
     }
 
-    const options = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    };
-
-    const { accessToken } =
+    const { accessToken, refreshToken } =
       await generateAccessAndRefreshToken(
         user._id,
         {
@@ -226,11 +228,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, options)
+      .cookie("accessToken", accessToken, cookieOptions)
+      .cookie("refreshToken", refreshToken, cookieOptions)
       .json(
         new ApiResponse(
           200,
-          { accessToken },
+          { accessToken, refreshToken },
           "Access token refreshed successfully"
         )
       );

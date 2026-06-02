@@ -2,14 +2,72 @@ import { Button } from "component/button";
 import { Divider } from "component/divider";
 import { InputField } from "component/input-field";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Form, Link, redirect, useActionData, useNavigation, useSubmit  } from "react-router";
+import { authApi } from "~/api/authApi";
+import type { Route } from "./+types/password";
+
+export async function action({ request }: Route.ActionArgs) {
+    const formData = await request.formData();
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+        const response = await authApi.register(name, email, password);
+        const resData = response.data?.data;
+
+        if (resData) {
+            const backendCookies = response.headers['set-cookie'];
+            const responseHeaders = new Headers();
+
+            if (backendCookies) {
+                backendCookies.forEach((cookie: string) => responseHeaders.append("Set-Cookie", cookie));
+            }
+
+            return redirect("/", { headers: responseHeaders });
+        }
+    } catch (error: any) {
+        return { error: error?.response?.data?.message || "Invalid credentials" };
+    }
+    return null;
+}
 
 export default function Password() {
+    const [showPasswordField, setShowPasswordField] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+
+    const actionData = useActionData() as { error?: string } | undefined;
+    const navigation = useNavigation();
+    const submit = useSubmit();
+    const isSubmitting = navigation.state === "submitting";
+
     const [text, setText] = useState("")
 
-    function continueButton() {
-        console.log(text);
+  async function continueButton() {
+    setEmailError("");
+    try {
+      const response = await authApi.findUser(email);
+      if (response.message === "User is not exists") {
+        setShowPasswordField(true);
+      } else {
+        setEmailError("Email found. Please login.");
+      }
+    } catch (err: any) {
+      setEmailError(err?.response?.data?.message || "Error validating email.");
     }
+  }
+
+  function handleMainButtonClick(e: React.MouseEvent) {
+    e.preventDefault();
+    if (!showPasswordField) {
+      continueButton();
+    } else {
+      submit({ name, email, password }, { method: "post" });
+    }
+  }
 
     function login() {
         console.log("Continue Button Pressed")

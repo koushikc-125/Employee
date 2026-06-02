@@ -2,46 +2,138 @@ import { Button } from "component/button";
 import { Divider } from "component/divider";
 import { InputField } from "component/input-field";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Form, Link, redirect, useActionData, useNavigation, useSubmit } from "react-router";
+import type { Route } from "./+types/password";
+import { authApi } from '../api/authApi';
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  try {
+    const response = await authApi.register(name, email, password);
+    console.log(response);
+
+    const resData = response.data?.data;
+
+    if (resData) {
+      const backendCookies = response.headers['set-cookie'];
+      const responseHeaders = new Headers();
+
+      if (backendCookies) {
+        backendCookies.forEach((cookie: string) => responseHeaders.append("Set-Cookie", cookie));
+      }
+
+      return redirect("/", { headers: responseHeaders });
+    }
+  } catch (error: any) {
+    return { error: error?.response?.data?.message || "Invalid credentials" };
+  }
+  return null;
+}
 
 export default function Register() {
   const [text, setText] = useState("")
+  const [showPasswordField, setShowPasswordField] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  function continueButton() {
-    console.log(text);
+  const actionData = useActionData() as { error?: string } | undefined;
+  const navigation = useNavigation();
+  const submit = useSubmit();
+  const isSubmitting = navigation.state === "submitting";
+
+  async function continueButton() {
+    setEmailError("");
+    try {
+      const response = await authApi.findUser(email);
+
+      setEmailError("Email already registered. Please log in.");
+    } catch (err: any) {
+      const serverResponse = err?.response?.data;
+
+      if (serverResponse && serverResponse.message === "User is not exists") {
+        setShowPasswordField(true);
+      } else {
+        setEmailError(serverResponse?.message || "Error validating email.");
+      }
+    }
+  }
+
+
+  function handleMainButtonClick(e: React.MouseEvent) {
+    e.preventDefault();
+    if (!showPasswordField) {
+      continueButton();
+    } else {
+      submit({ name, email, password }, { method: "post" });
+    }
   }
 
   function login() {
     console.log("Continue Button Pressed")
   }
 
-
   return (
     <main className="flex items-center justify-center flex-col">
       <header className="pt-4 max-[800px]:pt-9  ps-6 w-full pb-16 max-[800px]:ps-0 max-[800px]:pb-6 max-[800px]:justify-center flex">
         <p className="text-(--default) text-xl max-[800px]:text-lg">Employee</p>
       </header>
-      <section className="flex max-[800px]:pt-0 pt-3 justify-center items-center w-93 flex-col px-4 gap-6">
+      <Form method="post" className="flex max-[800px]:pt-0 pt-3 justify-center items-center w-93 flex-col px-4 gap-6">
         <div className="flex justify-center pb-2">
-          <h1 className="text-3xl font-medium ">Create an account</h1>
+          <h1 className="text-3xl font-medium">Create an account</h1>
         </div>
         <Button onClick={login} text="Continue With Google" />
         <Divider />
+
         <InputField
           placeholder="Email"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={email}
+          disabled={showPasswordField || isSubmitting}
+          onChange={(e) => setEmail(e.target.value)}
         />
+
+        {showPasswordField && (
+          <>
+            <InputField
+              placeholder="Name"
+              value={name}
+              disabled={isSubmitting}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+
+            <InputField
+              placeholder="Password"
+              value={password}
+              disabled={isSubmitting}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </>
+        )}
+
+        {(actionData?.error || emailError) && (
+          <p className="text-red-500 text-sm self-start px-2">
+            {actionData?.error || emailError}
+          </p>
+        )}
+
         <Button
-          onClick={continueButton}
-          text="Continue"
+          onClick={handleMainButtonClick}
+          text={isSubmitting ? "Logging in..." : "Continue"}
           textColor="text-(--background)"
           backgroundColor="bg-(--subdued)"
+          disabled={isSubmitting}
         />
+
         <span>Already have an account? &nbsp;
           <Link to="/log-in" className="hover:text-(--default) transition-colors underline">Log in</Link>
         </span>
-      </section>
+      </Form>
     </main>
   );
 }
