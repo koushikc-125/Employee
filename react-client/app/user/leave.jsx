@@ -37,14 +37,14 @@ function LeaveApplication() {
         display: "flex",
         justifyContent: "center",
         padding: "40px",
-        background: "#eaf6ec",
+        // background: "#eaf6ec",
         minHeight: "100vh",
       }}
     >
       <div
         style={{
           width: "450px",
-          background: "white",
+         // background: "white",
           padding: "30px",
           borderRadius: "12px",
           boxShadow: "0px 4px 15px rgba(0,0,0,0.1)",
